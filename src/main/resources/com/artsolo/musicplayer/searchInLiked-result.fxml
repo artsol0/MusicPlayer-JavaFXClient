@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="631.0" prefWidth="1005.0" style="-fx-background-color: #191919;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artsolo.musicplayer.LikedResultController">
+    <children>
+        <SplitPane prefHeight="631.0" prefWidth="145.0" style="-fx-padding: 0;">
+            <items>
+                <AnchorPane prefHeight="631.0" prefWidth="145.0" style="-fx-background-color: #000000;">
+                    <children>
+                        <ImageView fitHeight="68.0" fitWidth="97.0" layoutX="39.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/sound-wave.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="likedSongsButton" layoutX="39.0" layoutY="120.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Liked Songs" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="13.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/music.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="13.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/folder.png" />
+                            </image></ImageView>
+                        <Button fx:id="yourAlbumsButton" layoutX="37.0" layoutY="160.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Your Albums" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <Button fx:id="searchButton" layoutX="52.0" layoutY="200.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="13.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/search.png" />
+                            </image></ImageView>
+                        <Button fx:id="logoutButton" layoutX="41.0" layoutY="593.0" mnemonicParsing="false" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="Logout" textFill="#fcfcfc">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                    </children></AnchorPane>
+            </items>
+        </SplitPane>
+        <MenuBar layoutX="145.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="860.0" style="-fx-background-color: #202020;">
+            <menus>
+                <Menu mnemonicParsing="false">
+                    <items>
+
+                    </items>
+                </Menu>
+            </menus>
+            <effect>
+                <Blend />
+            </effect>
+        </MenuBar>
+        <AnchorPane layoutX="145.0" prefHeight="27.0" prefWidth="200.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="27.0" prefWidth="200.0" text="Liked Songs" textAlignment="CENTER" />
+            </children></AnchorPane>
+      <ScrollPane hbarPolicy="NEVER" layoutX="258.0" layoutY="56.0" prefHeight="490.0" prefWidth="635.0">
+         <content>
+            <VBox fx:id="songBox" minHeight="488.0" prefWidth="635.0" spacing="10" style="-fx-background-color: #191919;" />
+         </content>
+          <style>
+              -fx-background-color: transparent;
+              -fx-background-insets: 0;
+          </style>
+      </ScrollPane>
+      <Button fx:id="playBtn" layoutX="558.0" layoutY="593.0" mnemonicParsing="false" prefWidth="35.0" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="▶" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="pauseBtn" layoutX="518.0" layoutY="593.0" mnemonicParsing="false" prefWidth="35.0" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="◼" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="resetBtn" layoutX="598.0" layoutY="593.0" mnemonicParsing="false" prefWidth="35.0" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="↻" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="nextBtn" layoutX="651.0" layoutY="593.0" mnemonicParsing="false" prefWidth="35.0" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="▸▸" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="previousBtn" layoutX="465.0" layoutY="593.0" mnemonicParsing="false" prefWidth="35.0" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="◂◂" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Label fx:id="musicTitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="145.0" layoutY="559.0" prefHeight="21.0" prefWidth="860.0" textAlignment="CENTER" textFill="#404040">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="notificationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="724.0" layoutY="570.0" opacity="0.0" style="-fx-background-color: #303030; -fx-background-radius: 5 5 0 5; -fx-padding: 10;" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="searchedString" alignment="CENTER" layoutX="145.0" layoutY="37.0" prefHeight="16.0" prefWidth="860.0" />
+
+    </children>
+</AnchorPane>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="631.0" prefWidth="1005.0" style="-fx-background-color: #191919;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artsolo.musicplayer.SearchController">
+   <children>
+      <SplitPane prefHeight="631.0" prefWidth="145.0" style="-fx-padding: 0;">
+         <items>
+            <AnchorPane prefHeight="631.0" prefWidth="145.0" style="-fx-background-color: #000000;">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="97.0" layoutX="39.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/sound-wave.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="likedSongsButton" layoutX="39.0" layoutY="120.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Liked Songs" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="13.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/music.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="13.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/folder.png" />
+                     </image></ImageView>
+                  <Button fx:id="yourAlbumsButton" layoutX="37.0" layoutY="160.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Your Albums" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Button fx:id="searchButton" layoutX="52.0" layoutY="200.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search" textFill="WHITE" />
+                  <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="13.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/search.png" />
+                     </image></ImageView>
+                  <Button fx:id="logoutButton" layoutX="41.0" layoutY="593.0" mnemonicParsing="false" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="Logout" textFill="#fcfcfc">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+               </children></AnchorPane>
+         </items>
+      </SplitPane>
+      <MenuBar layoutX="145.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="860.0" style="-fx-background-color: #202020;">
+        <menus>
+          <Menu mnemonicParsing="false">
+            <items>
+
+            </items>
+          </Menu>
+        </menus>
+         <effect>
+            <Blend />
+         </effect>
+      </MenuBar>
+       <AnchorPane layoutX="145.0" prefHeight="27.0" prefWidth="200.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="200.0" text="Search" textAlignment="CENTER" />
+         </children>
+       </AnchorPane>
+      <TextField fx:id="searchField" focusTraversable="false" layoutX="427.0" layoutY="38.0" prefHeight="24.0" prefWidth="227.0" promptText="Search" />
+      <Button fx:id="findButton" layoutX="661.0" layoutY="38.0" mnemonicParsing="false" style="-fx-background-color: #338aff; -fx-border-radius: 5;" text="Search" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <ScrollPane hbarPolicy="NEVER" layoutX="145.0" layoutY="85.0" prefHeight="546.0" prefWidth="860.0">
+        <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="610.0" prefWidth="860.0" style="-fx-background-color: #191919; padding-bottom: 35">
+
+                <Button fx:id="findRockButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="35.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Rock" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/rock.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findPopButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="243.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Pop" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/pop.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findHipHopButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="451.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Hip Hop" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/hip-hop.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findKpopButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="659.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="K-Pop" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/kpop.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findElectronicButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="207.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Electronic" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/electronic.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findSoulButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="243.0" layoutY="207.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Soul" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/soul.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findMetalButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="451.0" layoutY="207.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Metal" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/metal.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findFunkButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="659.0" layoutY="207.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5;" text="Funk" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/funk.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findJazzButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="414.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5; " text="Jazz" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/jazz.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findClassicalButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="243.0" layoutY="414.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5; " text="Classical" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/classical.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findCountryButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="451.0" layoutY="414.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5; " text="Country" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/contry.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+
+                <Button fx:id="findPunkButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="659.0" layoutY="414.0" mnemonicParsing="false" prefHeight="172.0" prefWidth="163.0" style="-fx-background-color: #303030; -fx-border-radius: 5; " text="Punk" textFill="WHITE">
+                    <graphic>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" prefWidth="97.0">
+                            <ImageView fitHeight="102.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/punk.png" />
+                                </image>
+                            </ImageView>
+                        </VBox>
+                    </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+                
+            </AnchorPane>
+        </content>
+          <style>
+              -fx-background-color: transparent;
+              -fx-background-insets: 0;
+          </style>
+      </ScrollPane>
+
+   </children>
+</AnchorPane>
