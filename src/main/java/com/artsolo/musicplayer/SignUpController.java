@@ -1,5 +1,9 @@
 package com.artsolo.musicplayer;
 
+import com.artsolo.musicplayer.services.MusicService;
+import com.artsolo.musicplayer.services.UserService;
+import com.artsolo.musicplayer.singletons.MusicServiceSingleton;
+import com.artsolo.musicplayer.singletons.UserServiceSingleton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
@@ -18,11 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -105,8 +105,8 @@ public class SignUpController implements Initializable {
                     String userRegistrationMessage = gson.toJson(registration);
 
                     try {
-                        MusicService musicService = MusicServiceSingleton.getInstance().getMusicService();
-                        String result = musicService.registration(userRegistrationMessage);
+                        UserService userService = UserServiceSingleton.getInstance().getAlbumService();
+                        String result = userService.registerNewUser(userRegistrationMessage);
 
                         if (result.equals("Registration was completed successfully")) {
                             invalidSignDetails.setStyle(successfulMessage);

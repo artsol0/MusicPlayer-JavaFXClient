@@ -1,5 +1,11 @@
 package com.artsolo.musicplayer;
 
+import com.artsolo.musicplayer.models.Music;
+import com.artsolo.musicplayer.models.User;
+import com.artsolo.musicplayer.services.AlbumService;
+import com.artsolo.musicplayer.services.MusicService;
+import com.artsolo.musicplayer.singletons.AlbumServiceSingleton;
+import com.artsolo.musicplayer.singletons.MusicServiceSingleton;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,7 +31,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -45,26 +50,32 @@ public class LikedResultController implements Initializable {
     public void setSearchString(String searchString) {this.searchString = searchString;};
 
     private MediaPlayer currentMediaPlayer = null;
-    private String currentMusicId = null, currentMusicTitle = null;
+    private int currentMusicIndex;
+    private String currentMusicTitle = null;
+    private User user;
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (currentMediaPlayer != null) {
-                    currentMediaPlayer.stop();
-                }
+                if (currentMediaPlayer != null) currentMediaPlayer.stop();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("search.fxml"));
-                Parent root = null;
                 try {
-                    root = loader.load();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("search.fxml"));
+                    Parent root = loader.load();
+
+                    SearchController searchController = loader.getController();
+                    searchController.setUser(user);
+
+                    Scene scene = searchButton.getScene();
+                    scene.setRoot(root);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                Scene scene = searchButton.getScene();
-                scene.setRoot(root);
             }
         });
         searchButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
@@ -85,19 +96,20 @@ public class LikedResultController implements Initializable {
         likedSongsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (currentMediaPlayer != null) {
-                    currentMediaPlayer.stop();
-                }
+                if (currentMediaPlayer != null) currentMediaPlayer.stop();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("liked-songs.fxml"));
-                Parent root = null;
                 try {
-                    root = loader.load();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("liked-songs.fxml"));
+                    Parent root = loader.load();
+
+                    LikedSongsController likedSongsController = loader.getController();
+                    likedSongsController.setUser(user);
+
+                    Scene scene = likedSongsButton.getScene();
+                    scene.setRoot(root);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-                Scene scene = likedSongsButton.getScene();
-                scene.setRoot(root);
             }
         });
         likedSongsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
@@ -118,19 +130,18 @@ public class LikedResultController implements Initializable {
         yourAlbumsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (currentMediaPlayer != null) {
-                    currentMediaPlayer.stop();
-                }
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("your-albums.fxml"));
-                Parent root = null;
                 try {
-                    root = loader.load();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("your-albums.fxml"));
+                    Parent root = loader.load();
+
+                    YourAlbumsController yourAlbumsController = loader.getController();
+                    yourAlbumsController.setUser(user);
+
+                    Scene scene = yourAlbumsButton.getScene();
+                    scene.setRoot(root);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                Scene scene = searchButton.getScene();
-                scene.setRoot(root);
             }
         });
         yourAlbumsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
@@ -169,33 +180,25 @@ public class LikedResultController implements Initializable {
     }
 
     public void initializeSearchString() {
-        List<String> playlist = new ArrayList<>();
-        List<String> titles = new ArrayList<>();
-
         searchedString.setText("Search result for \"" + searchString + "\"");
 
         try {
 
             MusicService musicService = MusicServiceSingleton.getInstance().getMusicService();
-            String[][] musicData = musicService.likedSearch(searchString);
+            AlbumService albumService = AlbumServiceSingleton.getInstance().getAlbumService();
+            List<Music> playlist = musicService.likedSearch(searchString);
 
-            for (int i = 0; i < musicData.length; i++) {
-                String musicId = musicData[i][0];
-                String musicTitle = musicData[i][1];
-                String musicPerformer = musicData[i][2];
-
-                playlist.add(musicId);
-                titles.add(musicTitle + " - " + musicPerformer);
+            for (Music music : playlist) {
 
                 HBox songBoxInner = new HBox();
                 songBoxInner.setPrefHeight(45.0);
                 songBoxInner.setPrefWidth(600.0);
                 songBoxInner.setStyle("-fx-padding: 2;");
 
-                Button chooseButton = new Button(musicPerformer + " - " + musicTitle);
-                chooseButton.setPrefSize(550.0,45.0);
+                Button chooseButton = new Button(music.getPerformer() + " - " + music.getTitle());
+                chooseButton.setPrefSize(500.0,45.0);
                 chooseButton.setCursor(Cursor.HAND);
-                chooseButton.setStyle("-fx-background-color: #202020; -fx-background-radius: 5 0 0 5; -fx-background-insets: 0;");
+                chooseButton.setStyle("-fx-background-color: #202020; -fx-background-radius:0; -fx-background-insets: 0;");
                 chooseButton.setTextFill(Paint.valueOf("WHITE"));
                 chooseButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
                     @Override
@@ -219,7 +222,7 @@ public class LikedResultController implements Initializable {
                             }
 
                             // Завантаження аудіофайлу у форматі байтів
-                            byte[] audioBytes = musicService.getMusicData(musicId);
+                            byte[] audioBytes = musicService.getMusicInBytes(music.getId());
 
                             // Створення тимчасового файлу
                             File tempFile = File.createTempFile("music", ".mp3");
@@ -239,8 +242,8 @@ public class LikedResultController implements Initializable {
                             currentMediaPlayer.play();
 
                             // Зберігання посилання на поточний код та назву музики
-                            currentMusicId = musicId;
-                            currentMusicTitle = musicTitle + " - " + musicPerformer;
+                            currentMusicIndex = playlist.indexOf(music);
+                            currentMusicTitle = music.getTitle() + " - " + music.getPerformer();
 
                             musicTitleLabel.setText(currentMusicTitle);
 
@@ -270,41 +273,26 @@ public class LikedResultController implements Initializable {
                                 public void handle(ActionEvent actionEvent) {
                                     currentMediaPlayer.stop();
 
-                                    int currentIndex = playlist.indexOf(currentMusicId);
-                                    currentIndex++;
-                                    if (currentIndex == playlist.size()) {
-                                        currentIndex = 0;
+                                    if (currentMusicIndex++ > playlist.size()) {
+                                        currentMusicIndex = 0;
+                                    } else {
+                                        currentMusicIndex++;
                                     }
-                                    currentMusicId = playlist.get(currentIndex);
 
                                     try {
-                                        byte[] bytes = musicService.getMusicData(currentMusicId);
+                                        byte[] bytes = musicService.getMusicInBytes(playlist.get(currentMusicIndex).getId());
 
-                                        // Створення тимчасового файлу
                                         File tempFile = File.createTempFile("music", ".mp3");
                                         tempFile.deleteOnExit();
-
-                                        // Запис масиву байтів у тимчасовий файл
                                         FileOutputStream fos = new FileOutputStream(tempFile);
                                         fos.write(bytes);
                                         fos.close();
 
-                                        // Створення медіа з тимчасового файлу
                                         Media media = new Media(tempFile.toURI().toString());
-
-                                        // Створення медіаплеєра
                                         currentMediaPlayer = new MediaPlayer(media);
-
                                         currentMediaPlayer.play();
 
-                                        currentIndex = titles.indexOf(currentMusicTitle);
-                                        currentIndex++;
-                                        if (currentIndex == titles.size()) {
-                                            currentIndex = 0;
-                                        }
-                                        currentMusicTitle = titles.get(currentIndex);
-                                        musicTitleLabel.setText(currentMusicTitle);
-
+                                        musicTitleLabel.setText(playlist.get(currentMusicIndex).getPerformer() + playlist.get(currentMusicIndex).getTitle());
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -317,46 +305,31 @@ public class LikedResultController implements Initializable {
                                 public void handle(ActionEvent actionEvent) {
                                     currentMediaPlayer.stop();
 
-                                    int currentIndex = playlist.indexOf(currentMusicId);
-                                    currentIndex--;
-                                    if (currentIndex < 0) {
-                                        currentIndex = playlist.size()-1;
+                                    if (currentMusicIndex-- < 0) {
+                                        currentMusicIndex = playlist.size()-1;
+                                    } else {
+                                        currentMusicIndex--;
                                     }
-                                    currentMusicId = playlist.get(currentIndex);
 
                                     try {
-                                        byte[] bytes = musicService.getMusicData(currentMusicId);
+                                        byte[] bytes = musicService.getMusicInBytes(playlist.get(currentMusicIndex).getId());
 
-                                        // Створення тимчасового файлу
                                         File tempFile = File.createTempFile("music", ".mp3");
                                         tempFile.deleteOnExit();
-
-                                        // Запис масиву байтів у тимчасовий файл
                                         FileOutputStream fos = new FileOutputStream(tempFile);
                                         fos.write(bytes);
                                         fos.close();
 
-                                        // Створення медіа з тимчасового файлу
                                         Media media = new Media(tempFile.toURI().toString());
-
                                         currentMediaPlayer = new MediaPlayer(media);
-
                                         currentMediaPlayer.play();
 
-                                        currentIndex = titles.indexOf(currentMusicTitle);
-                                        currentIndex--;
-                                        if (currentIndex < 0) {
-                                            currentIndex = playlist.size()-1;
-                                        }
-                                        currentMusicTitle = titles.get(currentIndex);
-                                        musicTitleLabel.setText(currentMusicTitle);
-
+                                        musicTitleLabel.setText(playlist.get(currentMusicIndex).getPerformer() + playlist.get(currentMusicIndex).getTitle());
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
                                 }
                             });
-
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -384,25 +357,20 @@ public class LikedResultController implements Initializable {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         try {
-                            String removeResult = musicService.removeFromLiked(musicId);
+                            String removeResult = musicService.removeMusicFromLiked(music.getId(), user.getId());
 
                             if (removeResult.equals("Song was removed from Liked List")) {
                                 likeButton.setTextFill(Paint.valueOf("WHITE"));
                             }
 
                             notificationLabel.setText(removeResult);
-
                             FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), notificationLabel);
-                            fadeIn.setToValue(1); // встановлюємо кінцеву прозорість елементу
-                            fadeIn.play(); // запускаємо анімацію появи
-
+                            fadeIn.setToValue(1);
+                            fadeIn.play();
                             FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), notificationLabel);
-                            fadeOut.setToValue(0); // встановлюємо кінцеву прозорість елементу
+                            fadeOut.setToValue(0);
                             notificationLabel.setOpacity(1);
-
-                            // викликаємо анімацію зникнення через 3 секунди
                             fadeOut.setDelay(Duration.seconds(3));
-
                             fadeOut.play();
 
                             chooseButton.setVisible(false);

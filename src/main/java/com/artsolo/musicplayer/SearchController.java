@@ -1,5 +1,6 @@
 package com.artsolo.musicplayer;
 
+import com.artsolo.musicplayer.models.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,12 +26,16 @@ public class SearchController implements Initializable {
     private TextField searchField;
 
     @FXML
-    private Button likedSongsButton, yourAlbumsButton, searchButton, logoutButton, findButton;
+    private Button likedSongsButton, yourAlbumsButton, logoutButton, findButton;
 
     @FXML
     private Button findRockButton, findPopButton, findHipHopButton, findKpopButton, findElectronicButton, findSoulButton, findMetalButton, findFunkButton, findJazzButton, findClassicalButton, findCountryButton, findPunkButton;
 
+    private User user;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -44,6 +49,7 @@ public class SearchController implements Initializable {
                     Parent root = loader.load();
                     StringResultController controller = loader.getController();
                     controller.setSearchString(searchString);
+                    controller.setUser(user);
 
                     Scene scene = findButton.getScene();
                     scene.setRoot(root);
@@ -143,15 +149,18 @@ public class SearchController implements Initializable {
         likedSongsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("liked-songs.fxml"));
-                Parent root = null;
                 try {
-                    root = loader.load();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("liked-songs.fxml"));
+                    Parent root = loader.load();
+
+                    LikedSongsController likedSongsController = loader.getController();
+                    likedSongsController.setUser(user);
+
+                    Scene scene = likedSongsButton.getScene();
+                    scene.setRoot(root);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-                Scene scene = likedSongsButton.getScene();
-                scene.setRoot(root);
             }
         });
         likedSongsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
@@ -172,15 +181,18 @@ public class SearchController implements Initializable {
         yourAlbumsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("your-albums.fxml"));
-                Parent root = null;
                 try {
-                    root = loader.load();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("your-albums.fxml"));
+                    Parent root = loader.load();
+
+                    YourAlbumsController yourAlbumsController = loader.getController();
+                    yourAlbumsController.setUser(user);
+
+                    Scene scene = yourAlbumsButton.getScene();
+                    scene.setRoot(root);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                Scene scene = searchButton.getScene();
-                scene.setRoot(root);
             }
         });
         yourAlbumsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
@@ -221,6 +233,7 @@ public class SearchController implements Initializable {
             Parent root = loader.load();
             GenreResultController controller = loader.getController();
             controller.setGenreId(genreId);
+            controller.setUser(user);
 
             Scene scene = btn.getScene();
             scene.setRoot(root);

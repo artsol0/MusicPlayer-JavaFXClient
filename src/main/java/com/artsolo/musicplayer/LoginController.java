@@ -1,4 +1,7 @@
 package com.artsolo.musicplayer;
+import com.artsolo.musicplayer.models.User;
+import com.artsolo.musicplayer.services.UserService;
+import com.artsolo.musicplayer.singletons.UserServiceSingleton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.application.Platform;
@@ -13,20 +16,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -89,15 +84,20 @@ public class LoginController implements Initializable {
                     String usrLoginMessage = gson.toJson(login);
 
                     try {
-                        MusicService musicService = MusicServiceSingleton.getInstance().getMusicService();
+                        UserService userService = UserServiceSingleton.getInstance().getAlbumService();
 
-                        boolean logResult = musicService.login(usrLoginMessage);
+                        User user = userService.loginUser(usrLoginMessage);
 
-                        if (!logResult) {
+                        if (user == null) {
                             invalidLogDetails.setText("Username or Password is incorrect");
                         } else {
                             try {
-                                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("liked-songs.fxml")));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("liked-songs.fxml"));
+                                Parent root = loader.load();
+
+                                LikedSongsController likedSongsController = loader.getController();
+                                likedSongsController.setUser(user);
+
                                 Stage musicPlayerWindow = (Stage) loginButton.getScene().getWindow();
                                 musicPlayerWindow.setScene(new Scene(root));
                                 musicPlayerWindow.centerOnScreen();
